@@ -1,5 +1,6 @@
+![Ribbon Custom Group](https://github.com/user-attachments/assets/e8f26436-e578-4076-b3dd-c5ecb1ac61bf)
 # Outlook-ViewLock
-ViewLock can lock an Outlook View, preventing any accidental changes from being saved when you close the Explorer.
+Lock Outlook Views, preventing any accidental changes from being saved when you close the Explorer.
 
 ## Purpose
 To compensate for the lack of a "Save Changes?" step after modifying the Settings of an Outlook View.
@@ -61,4 +62,3 @@ You should have received a copy of the GNU General Public License along with thi
 ## Screen Shots
 ![Store Scope Form ](https://github.com/user-attachments/assets/11728c3f-c2ec-41cd-b443-e9c2c5a3ee39)
 ![System Scope - Show And Tell](https://github.com/user-attachments/assets/3a36e21c-605f-44fc-9a9e-66f64286d5b2)
-![Ribbon Custom Group](https://github.com/user-attachments/assets/e8f26436-e578-4076-b3dd-c5ecb1ac61bf)
