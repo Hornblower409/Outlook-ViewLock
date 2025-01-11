@@ -10,12 +10,18 @@ ViewLock can lock a View, preventing any accidental changes from being saved whe
 When you make changes to an Outlook View there is no way to cancel or undo them. If you accidentally click on a column heading it permanently changes the Sort order for that View. If you have modified any of the Advanced View Settings (Columns, Group By, Sort, etc.) and don't like the new design, there's no way to undo your changes once you hit "OK" on the Settings dialog. There are ways to backup and restore a View, but they are manual and tedious.
 
 ## Install
-For help on using the VBA Editor, running Macros, or adding Macros to your Quick Access Toolbar or Ribbon see the Slipstick Systems web site article: [How to use Outlook's VBA Editor](https://www.slipstick.com/developer/how-to-use-outlooks-vba-editor/)
-
-This is a standalone Module with no external references and one Form. To install from the VBA Editor do:
+Download and unzip the latest Release ZIP file from [Releases](https://github.com/Hornblower409/Outlook-ViewLock/releases).
+Open the Outlook VBA Editor and import two files from where you unzipped the Release:
 
 - File -> Import: ViewLock.bas
 - File -> Import: ViewLockForm.frm
+
+Then:
+
+- Debug -> Compile ...
+- File -> Save VbaProject.OTM
+
+For help on using the VBA Editor, running Macros, or adding Macros to your Quick Access Toolbar or Ribbon see the Slipstick Systems web site article: [How to use Outlook's VBA Editor](https://www.slipstick.com/developer/how-to-use-outlooks-vba-editor/)
 
 The Module has five Macros:
 
