@@ -10,6 +10,8 @@ ViewLock can lock a View, preventing any accidental changes from being saved whe
 When you make changes to an Outlook View there is no way to cancel or undo them. If you accidentally click on a column heading it permanently changes the Sort order for that View. If you have modified any of the Advanced View Settings (Columns, Group By, Sort, etc.) and don't like the new design, there's no way to undo your changes once you hit "OK" on the Settings dialog. There are ways to backup and restore a View, but they are manual and tedious.
 
 ## Install
+For help on using the VBA Editor, running Macros, or adding Macros to your Quick Access Toolbar or Ribbon see the Slipstick Systems web site article: [How to use Outlook's VBA Editor](https://www.slipstick.com/developer/how-to-use-outlooks-vba-editor/)
+
 Download and unzip the latest Release ZIP file from [Releases](https://github.com/Hornblower409/Outlook-ViewLock/releases).
 Open the Outlook VBA Editor and import two files from where you unzipped the Release:
 
@@ -21,8 +23,7 @@ Then:
 - Debug -> Compile ...
 - File -> Save VbaProject.OTM
 
-For help on using the VBA Editor, running Macros, or adding Macros to your Quick Access Toolbar or Ribbon see the Slipstick Systems web site article: [How to use Outlook's VBA Editor](https://www.slipstick.com/developer/how-to-use-outlooks-vba-editor/)
-
+## Using ViewLock
 The Module has five Macros:
 
 - ViewLock_Lock
@@ -33,7 +34,6 @@ The Module has five Macros:
 
 The first four operate only on the current View. ViewLock_Form opens a User Form that allows you Lock/Unlock Views in the current Folder, the current Folder and all it's subfolders, the current Store (.pst file) or the entire system.
 
-## Using ViewLock
 ### Step 1 - Lock All Views
 Run the "ViewLock_Form" macro. Select the "System" Scope, "All" Type, check the "What If?" box, and click the "Lock" button. If everything runs OK, then uncheck the "What If?" box and click "Lock" again. This locks all the Views on your system.
 
