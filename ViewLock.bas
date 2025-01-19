@@ -1,135 +1,35 @@
 Attribute VB_Name = "ViewLock"
 Option Explicit
 
-'2025-01-09_182059086
+' v2025-01-18
 '
-'==============================================================
-'- ViewLock - Outlook Lock and Unlock Views Module
+' =====================================================================
+'   ViewLock - Outlook Lock and Unlock Views Module
 '
-'    Github Home Page
-'    https://github.com/Hornblower409/Outlook-ViewLock
+'   Github Home
+'   https://github.com/Hornblower409/Outlook-ViewLock
 '
-'- Purpose ----------------------------------------------------
+'   Github Releases
+'   https://github.com/Hornblower409/Outlook-ViewLock/releases
 '
-'    To compensate for the lack of a "Save Changes?" step after
-'    modifying the Settings of an Outlook View.
+' =====================================================================
 '
-'    ViewLock can lock a View, preventing any accidental changes
-'    from being saved when you close the Explorer, and allows
-'    you to Edit a View with the option to not save your
-'    changes.
+'   Copyright (C) 2024, 2025 Lycon Of Texas
 '
-'    When you make changes to an Outlook View there is no way to
-'    cancel or undo them. If you accidentally click on a column
-'    heading it permanently changes the Sort order for that
-'    View. If you have modified any of the Advanced View
-'    Settings (Columns, Group By, Sort, etc.) and don't like the
-'    new design, there's no way to undo your changes once you
-'    hit "OK" on the Settings dialog. There are ways to backup
-'    and restore a View, but they are manual and tedious.
+'   This program is free software: you can redistribute it
+'   and/or modify it under the terms of the GNU General Public
+'   License Version 3 as published by the Free Software
+'   Foundation.
 '
-'- Install ----------------------------------------------------
+'   This program is distributed in the hope that it will be
+'   useful, but WITHOUT ANY WARRANTY; without even the implied
+'   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+'   PURPOSE.  See the GNU General Public License for more
+'   details.
 '
-'    This is a standalone Module with no external references and
-'    one Form. To install from the VBA Editor do:
-'
-'    File -> Import: ViewLock.bas
-'    File -> Import: ViewLockForm.frm
-'
-'    The Module has five Macros:
-'
-'    ViewLock_Lock
-'    ViewLock_Unlock
-'    ViewLock_State
-'    ViewLock_Save
-'    ViewLock_Form
-'
-'    The first four operate only on the current View.
-'    ViewLock_Form opens a User Form that allows you Lock/Unlock
-'    Views in the current Folder, the current Folder and all
-'    it 's subfolders, the current Store (.pst file) or the
-'    entire system.
-'
-'- VBA Help ---------------------------------------------------
-'
-'    For help on using the VBA Editor, running Macros, or adding
-'    Macros to your Quick Access Toolbar or Ribbon see the
-'    Slipstick Systems web site article:
-'
-'    How to use Outlook's VBA Editor
-'    https://www.slipstick.com/developer/how-to-use-outlooks-
-'    vba-editor/
-'
-'- Step 1 - Lock All Views ------------------------------------
-'
-'    Run the "ViewLock_Form" macro. Select the "System" Scope,
-'    "All" Type, check the "What If?" box, and click the "Lock"
-'    button.
-'
-'    If everything runs OK, then uncheck the "What If?" box and
-'    click "Lock" again. This locks all the Views on your
-'    system.
-'
-'    Now, if you inadvertently make changes to a locked View,
-'    just close any Explorers using that View. When you reopen
-'    the View, it will have reverted to the unmodified version.
-'
-'- Step 2 - Making Changes ------------------------------------
-'
-'    When you need to edit a Locked View, there are two methods:
-'
-'    Lock, Edit, Save - Make sure the View is locked and leave
-'    it locked, make your changes, and then run Save. The
-'    disadvantage of this method is that if you close the
-'    Explorer without running Save your changes are lost.
-'
-'    Unlock, Edit, Save - Unlock the View, make your changes,
-'    and Save or Lock it. The disadvantage of this method is
-'    that you can't discard any changes because your changes
-'    become permanent when you close the Explorer.
-'
-'- Side Effects on Open Views ---------------------------------
-'
-'    Changing the state of an open View may sometimes hoark up
-'    it 's appearance. Don't Panic. Just close and reopen the
-'    Explorer or switch to a different View and back again.
-'
-'- Lock Pickers -----------------------------------------------
-'
-'    I have found the following situations where the Locked
-'    state of a View is ignored. I'm sure there are more.
-'
-'    Standard Views - If you have modified and Locked any of the
-'    Outlook Standard Views (e.g. Compact, Single, Preview) then
-'    doing a "Reset" in the Advanced View Settings dialog
-'    ignores any locks.
-'
-'    Shared Views - These are Views that have "All Xxxx folders"
-'    in the "Can Be Used On" column of the Manage All Views
-'    dialog. (e.g. "All Mail and Post folders"). There is really
-'    only one copy of these Views on your system, even though
-'    they appear in multiple Folders. Making a change to the
-'    Locked state on any one of them changes all occurrences of
-'    that View for that Folder type system wide.
-'
-'- Legal ------------------------------------------------------
-'
-'    Copyright (C) 2024 Lycon Of Texas
-'
-'    This program is free software: you can redistribute it
-'    and/or modify it under the terms of the GNU General Public
-'    License Version 3 as published by the Free Software
-'    Foundation.
-'
-'    This program is distributed in the hope that it will be
-'    useful, but WITHOUT ANY WARRANTY; without even the implied
-'    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-'    PURPOSE.  See the GNU General Public License for more
-'    details.
-'
-'    You should have received a copy of the GNU General Public
-'    License along with this program.  If not, see
-'    <https://www.gnu.org/licenses/>.
+'   You should have received a copy of the GNU General Public
+'   License along with this program.  If not, see
+'   <https://www.gnu.org/licenses/>.
 '
 '==============================================================
     
@@ -317,7 +217,7 @@ Option Explicit
 '   Public Main - Called from Macros and the Form
 ' ---------------------------------------------------------------------
 '
-Public Function ViewLock_Xeq( _
+Public Sub ViewLock_Xeq( _
     ByVal ActionEnum As Long, _
     ByVal ScopeENum As Long, _
     ByVal CallerName As String, _
@@ -328,7 +228,7 @@ Const ThisProc = "ViewLock_Xeq"
     
     '   Check/Set the current Environment
     '
-    If Not ViewLock_CurrentEnv() Then Exit Function
+    If Not ViewLock_CurrentEnv() Then Exit Sub
     
     '   Init Globals
     
@@ -359,11 +259,11 @@ Const ThisProc = "ViewLock_Xeq"
     '
     ViewLock_XeqDispatch
     
-End Function
+End Sub
 
 '   Dispatch based on Action and Scope
 '
-Private Function ViewLock_XeqDispatch()
+Private Sub ViewLock_XeqDispatch()
 
     '   Called from the Form to update the Default Form
     '   Status Display after any possible updates.
@@ -395,13 +295,13 @@ Private Function ViewLock_XeqDispatch()
     '
     ViewLock_FormStatusDisplayDefault
 
-End Function
+End Sub
 
 ' ---------------------------------------------------------------------
 '   Wide Scope (Folder, Folders, Store, Stores)
 ' ---------------------------------------------------------------------
 '
-Private Function ViewLock_StoreFolderScope()
+Private Sub ViewLock_StoreFolderScope()
 Const ThisProc = "ViewLock_StoreFolderScope"
 
     '   Warn about changes and get permission
@@ -428,9 +328,9 @@ Const ThisProc = "ViewLock_StoreFolderScope"
         Case vbOK
             '   Continue
         Case vbCancel
-            Exit Function
+            Exit Sub
         Case Else
-            Stop: Exit Function
+            Stop: Exit Sub
     End Select
     
     '   And awaaaaaay we go!
@@ -439,15 +339,15 @@ Const ThisProc = "ViewLock_StoreFolderScope"
     Select Case Scope
     
         Case Scopes_Stores
-            If Not ViewLock_Stores() Then Exit Function
+            If Not ViewLock_Stores() Then Exit Sub
         Case Scopes_Store
-            If Not ViewLock_Store(CurrentFolder.Store) Then Exit Function
+            If Not ViewLock_Store(CurrentFolder.Store) Then Exit Sub
         Case Scopes_Folders
-            If Not ViewLock_Folders(CurrentFolder) Then Exit Function
+            If Not ViewLock_Folders(CurrentFolder) Then Exit Sub
         Case Scopes_Folder
-            If Not ViewLock_Folder(CurrentFolder) Then Exit Function
+            If Not ViewLock_Folder(CurrentFolder) Then Exit Sub
         Case Else
-            Stop: Exit Function
+            Stop: Exit Sub
             
     End Select
 
@@ -455,7 +355,7 @@ Const ThisProc = "ViewLock_StoreFolderScope"
     '
     ViewLock_ShowAndTell
     
-End Function
+End Sub
 
 '   Walk  all Stores
 '
@@ -490,7 +390,7 @@ End Function
 
 '   Do a Store level Search Folders Collection
 '
-Private Function ViewLock_SearchFolders(oStore) As Boolean
+Private Function ViewLock_SearchFolders(ByVal oStore As Outlook.Store) As Boolean
 ViewLock_SearchFolders = False
 
     Dim oFolders As Outlook.Folders
@@ -600,7 +500,7 @@ End Function
 
 '   Show the Wide Scope Show and Tell
 '
-Private Function ViewLock_ShowAndTell()
+Private Sub ViewLock_ShowAndTell()
 Const ThisProc = "ViewLock_ShowAndTell"
 
     '   Put back the Default Form Status Diaplay
@@ -614,7 +514,7 @@ Const ThisProc = "ViewLock_ShowAndTell"
         Counts:=ViewLock_ShowAndTellCounts(), _
         Icon:=vbInformation
 
-End Function
+End Sub
 
 '   Build the Counters section of the Wide Scope Show and Tell
 '
@@ -679,7 +579,7 @@ End Function
 '   View Scope
 ' =====================================================================
 '
-Private Function ViewLock_ViewScope()
+Private Sub ViewLock_ViewScope()
 
     Select Case Action
         Case Actions_State
@@ -689,14 +589,14 @@ Private Function ViewLock_ViewScope()
         Case Actions_Save
             ViewLock_ViewSave
         Case Else
-            Stop: Exit Function
+            Stop: Exit Sub
     End Select
 
-End Function
+End Sub
 
 '   Save the Current View
 '
-Private Function ViewLock_ViewSave()
+Private Sub ViewLock_ViewSave()
 Const ThisProc = "ViewLock_ViewSave"
 
     '   Warnings
@@ -721,17 +621,17 @@ Const ThisProc = "ViewLock_ViewSave"
         Case vbOK
             '   Continue
         Case vbCancel
-            Exit Function
+            Exit Sub
         Case Else
             '   Oops
-            Stop: Exit Function
+            Stop: Exit Sub
     End Select
     
     '   Ignore Current State and just Lock and Save
     '   (oView.Save ignores oView.LockUserChanges)
     '
     ActionBool = True
-    If Not ViewLock_StateSave(oView:=CurrentView, IncChangedCount:=False, SetLock:=True, SetXML:=False) Then Stop: Exit Function
+    If Not ViewLock_StateSave(oView:=CurrentView, IncChangedCount:=False, SetLock:=True, SetXML:=False) Then Stop: Exit Sub
 
     '   Show and Tell
     '
@@ -742,11 +642,11 @@ Const ThisProc = "ViewLock_ViewSave"
         Text:="View is now Saved and " & ViewLock_LockStateName(CurrentView) & ".", _
         Icon:=vbInformation
 
-End Function
+End Sub
 
 '   Show the State of the Current View
 '
-Private Function ViewLock_ViewState()
+Private Sub ViewLock_ViewState()
 Const ThisProc = "ViewLock_ViewState"
     
     '   Show and Tell (SAT)
@@ -756,11 +656,11 @@ Const ThisProc = "ViewLock_ViewState"
         Text:="View is " & ViewLock_LockStateName(CurrentView) & ".", _
         Icon:=vbInformation
 
-End Function
+End Sub
 
 '   Set the State of the Current View
 '
-Private Function ViewLock_ViewSet()
+Private Sub ViewLock_ViewSet()
 Const ThisProc = "ViewLock_ViewSet"
     
     '   If already in the requested State - done
@@ -770,13 +670,12 @@ Const ThisProc = "ViewLock_ViewSet"
             ViewName:=CurrentView.Name, _
             Text:="View is already " & ViewLock_LockStateName(CurrentView) & ".", _
             Icon:=vbInformation
-        ViewLock_ViewSet = True
-        Exit Function
+        Exit Sub
     End If
     
     '   Warning if a Shared View and get Permisison
     '
-    If Not ViewLock_SharedWarning(ThisProc) Then Exit Function
+    If Not ViewLock_SharedWarning(ThisProc) Then Exit Sub
     
     '   Set it
     '
@@ -792,7 +691,7 @@ Const ThisProc = "ViewLock_ViewSet"
         Text:="View is now " & ViewLock_LockStateName(CurrentView) & ".", _
         Icon:=vbInformation
 
-End Function
+End Sub
 
 '   Show a View Scope Shared View Lock/Unlock Warning and get Permission
 '
@@ -836,7 +735,7 @@ End Function
 
 '   Handle a possible View State Change
 '
-Private Function ViewLock_StateChange(ByVal oView As Outlook.View)
+Private Sub ViewLock_StateChange(ByVal oView As Outlook.View)
 Const ThisProc = "ViewLock_StateChange"
 
     DoEvents
@@ -845,7 +744,7 @@ Const ThisProc = "ViewLock_StateChange"
 
     '   If it doesn't pass the VTypes filter - Done
     '
-    If Not ViewLock_StateVTypeFilter(oView) Then Exit Function
+    If Not ViewLock_StateVTypeFilter(oView) Then Exit Sub
     
     ' ---------------------------------------------------------------------
     '   Break out Explorer.CurrentView handling because it's so
@@ -861,17 +760,17 @@ Const ThisProc = "ViewLock_StateChange"
             '   If there is no State Change - Inc Counter and Done
             '   Save the View
             '
-            If ViewLock_StateSharedSeen(oView) Then Exit Function
-            If Not ViewLock_StateChanging(oView) Then Exit Function
-            If Not ViewLock_StateSave(oView:=oView, IncChangedCount:=True, SetLock:=False, SetXML:=True) Then Stop: Exit Function
+            If ViewLock_StateSharedSeen(oView) Then Exit Sub
+            If Not ViewLock_StateChanging(oView) Then Exit Sub
+            If Not ViewLock_StateSave(oView:=oView, IncChangedCount:=True, SetLock:=False, SetXML:=True) Then Stop: Exit Sub
             
         Case Else
             ' Oops
-            Stop: Exit Function
+            Stop: Exit Sub
     End Select
     ' ---------------------------------------------------------------------
     
-End Function
+End Sub
 
 '   Update the View.XML
 '
@@ -1176,7 +1075,7 @@ End Function
 
 '   Set the Status Display Text to Running Counts
 '
-Private Function ViewLock_FormStatusDisplayCounts()
+Private Sub ViewLock_FormStatusDisplayCounts()
 
     '   Get the Wide Scrop Show and Tell Counts block
     '   Pick off the first and last lines (Changed & Scanned Counts)
@@ -1191,10 +1090,10 @@ Private Function ViewLock_FormStatusDisplayCounts()
         ShowAndTellCounts(0) & vbNewLine & _
         ShowAndTellCounts(UBound(ShowAndTellCounts))
 
-End Function
+End Sub
 '   Set the Status Display Text to default
 '
-Private Function ViewLock_FormStatusDisplayDefault()
+Private Sub ViewLock_FormStatusDisplayDefault()
 
     ViewLock_FormStatusDisplay _
         "Current Folder: '" & CurrentFolder.FolderPath & "'." & vbNewLine & _
@@ -1203,16 +1102,16 @@ Private Function ViewLock_FormStatusDisplayDefault()
             "(" & ViewLock_VTypesList(ViewLock_ViewVType(CurrentView)) & ")." & vbNewLine & _
         "Current Scope : " & ViewLock_ScopeString
 
-End Function
+End Sub
 
 '   If the Form is Open - Set the StatusDisplay Text
 '
-Private Function ViewLock_FormStatusDisplay(ByVal Text As String)
+Private Sub ViewLock_FormStatusDisplay(ByVal Text As String)
 
-    If Form Is Nothing Then Exit Function
+    If Form Is Nothing Then Exit Sub
     Form.StatusDisplay = Text
 
-End Function
+End Sub
 
 '   Get the VTypes of a View
 '
@@ -1234,7 +1133,7 @@ End Function
 
 Private Function ViewLock_ScopeNames() As String
 
-    Dim ScopeNames(Scopes_First To Scopes_Last)
+    Dim ScopeNames(Scopes_First To Scopes_Last) As String
     ScopeNames(Scopes_Stores) = "All Views on the System."
     ScopeNames(Scopes_Store) = "All Views in the Current Store (.pst)."
     ScopeNames(Scopes_Folders) = "All Views in the Current Folder and SubFolders."
@@ -1271,7 +1170,7 @@ Private Function ViewLock_ActionNames() As String
     
 End Function
 
-Private Function ViewLock_CountNames()
+Private Sub ViewLock_CountNames()
 
     ReDim CountNames(Counts_First To Counts_Last, CountNames_First To CountNames_Last)
     
@@ -1305,7 +1204,7 @@ Private Function ViewLock_CountNames()
     CountNames(Counts_StoreCount, CountNames_Type) = "Store"
     CountNames(Counts_StoreCount, CountNames_Desc) = "Scanned"
 
-End Function
+End Sub
 
 '   Return a string (All, Shared, Public, Private) from VTypes
 '
@@ -1344,7 +1243,7 @@ Private Function ViewLock_ScopeString() As String
         Case Scopes_Stores
             ViewLock_ScopeString = "System."
         Case Scopes_Store
-            ViewLock_ScopeString = "Store (.pst) '" & CurrentFolder.Store & "'."
+            ViewLock_ScopeString = "Store (.pst) '" & CurrentFolder.Store.DisplayName & "'."
         Case Scopes_Folders
             ViewLock_ScopeString = "Folder '" & CurrentFolder.FolderPath & "' and Subfolders."
         Case Scopes_Folder
