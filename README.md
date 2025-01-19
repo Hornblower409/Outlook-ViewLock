@@ -57,7 +57,7 @@ Standard Views - If you have modified and Locked any of the Outlook Standard Vie
 Shared Views - These are Views that have "All Xxxx folders" in the "Can Be Used On" column of the Manage All Views dialog. (e.g. "All Mail and Post folders"). There is really only one copy of these Views on your system, even though they appear in multiple Folders. Making a change to the Locked state on any one of them changes all occurrences of that View for that Folder type system wide.
 
 ## Legal
-Copyright (C) 2024 Lycon Of Texas
+Copyright (C) 2024, 2025 Lycon Of Texas
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License Version 3 as published by the Free Software Foundation.
 
