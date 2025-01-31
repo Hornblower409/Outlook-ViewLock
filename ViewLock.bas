@@ -1,7 +1,7 @@
 Attribute VB_Name = "ViewLock"
 Option Explicit
 
-' v2025-01-18
+' v2025-01-31
 '
 ' =====================================================================
 '   ViewLock - Outlook Lock and Unlock Views Module
@@ -239,11 +239,11 @@ Const ThisProc = "ViewLock_Xeq"
     Scope = ScopeENum
     ScopeName = ViewLock_ScopeNames()
     ScopeShortName = ViewLock_ScopeShortNames()
-    ScopeString = ViewLock_ScopeString()
 
     VTypes = VTypesENum
     If VTypes = -1 Then VTypes = ViewLock_ViewVType(CurrentView)        '   If no VTypes from Caller - Default to Current View
     VTypesList = ViewLock_VTypesList(VTypes)
+    ScopeString = ViewLock_ScopeString()
     
     Caller = CallerName
     WhatIf = WhatIfBool
@@ -1213,7 +1213,7 @@ Private Function ViewLock_VTypesList(ByVal VTypes As Long) As String
     Select Case VTypes
     
         Case VTypes_None
-            ViewLock_VTypesList = "No"
+            ViewLock_VTypesList = "None"
         Case VTypes_All
             ViewLock_VTypesList = "All"
         Case Else
@@ -1269,8 +1269,8 @@ Private Function ViewLock_FolderIPFRoot(ByVal oFolder As Outlook.Folder) As Stri
     '   Get the Property Raw value
     '   Property does not exist or "" -> assume IPM.Note
     '
-    Dim oPA As Outlook.PropertyAccessor
-    Set oPA = oFolder.PropertyAccessor
+    Dim oPA As Outlook.propertyAccessor
+    Set oPA = oFolder.propertyAccessor
     Dim PropValue As String
 
     On Error Resume Next
@@ -1305,11 +1305,11 @@ End Function
 Private Function ViewLock_GetProperty(ByVal Item As Object, ByVal PropTag As String, ByRef Value As Variant) As Boolean
 ViewLock_GetProperty = False
 
-    Dim PA As Outlook.PropertyAccessor
+    Dim PA As Outlook.propertyAccessor
     
     On Error GoTo ErrExit
     
-        Set PA = Item.PropertyAccessor
+        Set PA = Item.propertyAccessor
         Value = PA.GetProperty(PropTag)
 
     On Error GoTo 0
