@@ -15,7 +15,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-' v2025-01-18
+' v2025-01-31
 '
 ' =====================================================================
 '   ViewLock - Outlook Lock and Unlock Views Module
@@ -337,4 +337,3 @@ End Sub
 Public Property Let StatusDisplay(ByVal Text As String)
     StatusLabel.Caption = Text
 End Property
-
